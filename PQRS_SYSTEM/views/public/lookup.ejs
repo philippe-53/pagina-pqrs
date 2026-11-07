@@ -1,0 +1,33 @@
+<%- include('../partials/head', { title, bodyClass: 'public-page' }) %>
+<%- include('../partials/public-header') %>
+<main class="public-main public-narrow">
+  <header class="public-title"><p class="eyebrow">Seguimiento de solicitudes</p><h1>Consulta tu PQRS</h1><p>Ingresa el ticket que recibiste al registrar tu solicitud.</p></header>
+  <form class="panel public-form form-stack" method="POST" action="/consultar">
+    <input type="hidden" name="form_token" value="<%= publicFormToken %>">
+    <label class="field"><span>Número de ticket</span><input name="ticket" maxlength="28" value="<%= ticket %>" placeholder="SER-…" autocomplete="off" spellcheck="false" required></label>
+    <button class="button button-primary" type="submit">Consultar estado</button>
+  </form>
+  <% if (error) { %><div class="alert alert-error" role="alert"><%= error %></div><% } %>
+  <% if (pqrs) { %>
+    <section class="panel public-form" aria-live="polite">
+      <p class="eyebrow">Resultado de la consulta</p>
+      <h2 class="ticket-number"><%= pqrs.ticket %></h2>
+      <p><strong>Estado actual:</strong> <span class="badge"><%= pqrs.estado_pqrs %></span></p>
+      <p><strong>Tipo:</strong> <%= pqrs.tipo %></p>
+      <p><strong>Servicio:</strong> <%= pqrs.servicio || 'Solicitud registrada anteriormente' %></p>
+      <p><strong>Fecha de registro:</strong> <%= new Date(pqrs.fecha_creacion).toLocaleDateString('es-CO') %></p>
+      <h3>Trayectoria de la solicitud</h3>
+      <ol class="tracking-timeline">
+        <% history.forEach(function(item) { %>
+          <li><span class="badge"><%= item.estado %></span><time><%= new Date(item.fecha).toLocaleDateString('es-CO') %></time><p><%= item.comentario %></p></li>
+        <% }) %>
+      </ol>
+      <h3>Respuestas oficiales</h3>
+      <% if (!responses.length) { %><p class="muted">Tu solicitud fue recibida. Aún no hay respuestas oficiales registradas.</p><% } %>
+      <% responses.forEach(function(item) { %>
+        <article class="official-response"><time><%= new Date(item.fecha).toLocaleDateString('es-CO') %></time><p><%= item.respuesta %></p></article>
+      <% }) %>
+    </section>
+  <% } %>
+</main>
+<%- include('../partials/public-footer') %>

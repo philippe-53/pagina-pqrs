@@ -1,0 +1,100 @@
+<%- include('../partials/head', { title: title, bodyClass: 'app-page' }) %>
+
+<div class="app-shell">
+  <%- include('../partials/nav') %>
+
+  <main class="app-main">
+    <header class="page-hero">
+      <div>
+        <p class="eyebrow">Reportes</p>
+        <h2>Indicadores del sistema</h2>
+      </div>
+    </header>
+
+    <%- include('../partials/alerts') %>
+
+    <section class="panel">
+      <form class="filters-grid" method="GET" action="/admin/reportes">
+        <label class="field">
+          <span>Buscar</span>
+          <input type="text" name="q" value="<%= filters.q %>" placeholder="Ticket, asunto, solicitante o dirección">
+        </label>
+        <label class="field">
+          <span>Estado</span>
+          <select name="estado">
+            <option value="">Todos</option>
+            <% states.forEach(function(state) { %>
+              <option value="<%= state.nombre %>" <%= filters.estado.toLowerCase() === state.nombre.toLowerCase() ? 'selected' : '' %>><%= state.nombre %></option>
+            <% }) %>
+          </select>
+        </label>
+        <label class="field">
+          <span>Tipo</span>
+          <select name="tipo">
+            <option value="">Todos</option>
+            <% pqrsTypes.forEach(function(type) { %>
+              <option value="<%= type %>" <%= filters.tipo === type ? 'selected' : '' %>><%= type %></option>
+            <% }) %>
+          </select>
+        </label>
+        <input type="hidden" name="sortBy" value="<%= filters.sortBy %>">
+        <input type="hidden" name="order" value="<%= filters.order %>">
+        <div class="filters-actions">
+          <button class="button button-primary" type="submit">Aplicar filtros</button>
+          <button class="button button-ghost" type="submit" formaction="/admin/reportes/descargar">Descargar Excel (.xlsx)</button>
+          <a class="button button-ghost" href="/admin/reportes">Limpiar</a>
+        </div>
+      </form>
+      <p class="muted"><%= pqrs.length %> PQRS coinciden con los filtros. La descarga incluye estos resultados por columnas. Los indicadores de usuarios son globales.</p>
+    </section>
+
+    <section class="stats-grid">
+      <article class="stat-card"><span>Total usuarios</span><strong><%= userSummary.total_usuarios %></strong></article>
+      <article class="stat-card"><span>Administradores</span><strong><%= userSummary.administradores %></strong></article>
+      <article class="stat-card"><span>Residentes</span><strong><%= userSummary.residentes %></strong></article>
+      <article class="stat-card"><span>Activos</span><strong><%= userSummary.activos %></strong></article>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><h3>PQRS filtradas</h3></div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Ticket</th><th>Asunto</th><th>Solicitante</th><th>Tipo</th><th>Estado</th><th>Fecha</th></tr></thead>
+          <tbody>
+            <% pqrs.forEach(function(row) { %>
+              <tr><td><%= row.ticket %></td><td><%= row.asunto %></td><td><%= row.solicitante %></td><td><%= row.tipo %></td><td><%= row.estado_pqrs || row.estado_nombre %></td><td><%= new Date(row.fecha_creacion).toLocaleString('es-CO') %></td></tr>
+            <% }) %>
+            <% if (!pqrs.length) { %><tr><td colspan="6">No hay PQRS con estos filtros.</td></tr><% } %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="two-column-grid">
+      <article class="panel">
+        <div class="panel-head"><h3>PQRS por estado</h3></div>
+        <div class="mini-bars">
+          <% byState.forEach(function(item) { %>
+            <div class="mini-bar-row">
+              <span><%= item.estado %></span>
+              <strong><%= item.total %></strong>
+            </div>
+          <% }) %>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head"><h3>PQRS por tipo</h3></div>
+        <div class="mini-bars">
+          <% byType.forEach(function(item) { %>
+            <div class="mini-bar-row">
+              <span><%= item.tipo %></span>
+              <strong><%= item.total %></strong>
+            </div>
+          <% }) %>
+        </div>
+      </article>
+    </section>
+  </main>
+</div>
+
+<%- include('../partials/footer') %>

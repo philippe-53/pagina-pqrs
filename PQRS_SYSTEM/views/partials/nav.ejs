@@ -1,0 +1,36 @@
+<aside class="sidebar">
+  <div class="brand-block">
+    <a class="brand-home" href="/" aria-label="Serranía, inicio">
+      <img class="site-logo site-logo-sidebar" src="/images/serrania-logo.png" alt="Serranía SAS ESP" width="640" height="200">
+    </a>
+    <div>
+      <p class="brand-kicker">Residuos sólidos</p>
+      <h1><%= appName %></h1>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-name"><%= currentUser.fullName %></div>
+    <div class="profile-meta"><%= currentUser.role %></div>
+    <div class="profile-meta"><%= currentUser.profile ? currentUser.profile.nroDoc : '' %></div>
+  </div>
+
+  <nav class="side-nav">
+    <% if (currentUser.role === 'ADMINISTRADOR') { %>
+      <a class="nav-link <%= currentPath === '/admin' ? 'active' : '' %>" href="/admin">Panel</a>
+      <a class="nav-link <%= currentPath.startsWith('/admin/pqrs') ? 'active' : '' %>" href="/admin/pqrs">PQRS</a>
+      <a class="nav-link <%= currentPath.startsWith('/admin/usuarios') ? 'active' : '' %>" href="/admin/usuarios">Usuarios</a>
+      <a class="nav-link <%= currentPath === '/admin/reportes' ? 'active' : '' %>" href="/admin/reportes">Reportes</a>
+    <% } else if (currentUser.role === 'CONSULTA_PQRS') { %>
+      <a class="nav-link <%= currentPath.startsWith('/consulta-pqrs') ? 'active' : '' %>" href="/consulta-pqrs">PQRS</a>
+    <% } else { %>
+      <a class="nav-link <%= currentPath === '/resident' ? 'active' : '' %>" href="/resident">Mi panel</a>
+      <a class="nav-link <%= currentPath.startsWith('/resident/pqrs') ? 'active' : '' %>" href="/resident/pqrs">Mis PQRS</a>
+    <% } %>
+  </nav>
+
+  <div class="sidebar-footer">
+    <a class="button button-ghost button-block" href="/">Página pública</a>
+    <a class="button button-ghost button-block" href="/logout">Cerrar sesión</a>
+  </div>
+</aside>

@@ -1,0 +1,89 @@
+<%- include('../partials/head', { title: title, bodyClass: 'app-page' }) %>
+
+<div class="app-shell">
+  <%- include('../partials/nav') %>
+
+  <main class="app-main">
+    <header class="page-hero">
+      <div>
+        <p class="eyebrow">Panel administrativo</p>
+        <h2>Atención y seguimiento de PQRS</h2>
+        <p>Gestione las solicitudes de los usuarios del servicio de residuos sólidos y registre su trayectoria.</p>
+      </div>
+      <a class="button button-primary" href="/admin/pqrs/nueva">Nueva PQRS</a>
+    </header>
+
+    <%- include('../partials/alerts') %>
+
+    <section class="stats-grid">
+      <article class="stat-card"><span>Total PQRS</span><strong><%= summary.total_pqrs %></strong></article>
+      <article class="stat-card"><span>Abiertas</span><strong><%= summary.abiertos %></strong></article>
+      <article class="stat-card"><span>En proceso</span><strong><%= summary.en_proceso %></strong></article>
+      <article class="stat-card"><span>Usuarios</span><strong><%= usersSummary.total_usuarios %></strong></article>
+    </section>
+
+    <section class="two-column-grid">
+      <article class="panel">
+        <div class="panel-head">
+          <h3>Perfil del administrador</h3>
+        </div>
+        <div class="info-list">
+          <div><span>Nombre</span><strong><%= profile.nombres %> <%= profile.apellidos %></strong></div>
+          <div><span>Documento del administrador</span><strong><%= profile.nro_doc %></strong></div>
+          <div><span>NIT de la empresa</span><strong>901974106</strong></div>
+          <div><span>Email institucional</span><strong>subaseopqrds@elcairo-valle.gov.co</strong></div>
+          <div><span>Teléfono de contacto</span><strong>+57 320 314 3660</strong></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <h3>Resumen rápido</h3>
+        </div>
+        <div class="mini-bars">
+          <% pqrsByState.forEach(function(item) { %>
+            <div class="mini-bar-row">
+              <span><%= item.estado %></span>
+              <strong><%= item.total %></strong>
+            </div>
+          <% }) %>
+        </div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h3>PQRS recientes</h3>
+        <a href="/admin/pqrs">Ver todas</a>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Ticket</th>
+              <th>Asunto</th>
+              <th>Solicitante</th>
+              <th>Dirección</th>
+              <th>Estado</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% recentPqrs.forEach(function(item) { %>
+              <tr>
+                <td><a href="/admin/pqrs/<%= item.id_pqrs %>"><%= item.ticket %></a></td>
+                <td><%= item.asunto %></td>
+                <td><%= item.solicitante %></td>
+                <td><%= item.direccion || item.unidad || '' %></td>
+                <td><span class="badge"><%= item.estado_pqrs || item.estado_nombre %></span></td>
+                <td><%= item.fecha_creacion ? new Date(item.fecha_creacion).toLocaleDateString('es-CO') : '' %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<%- include('../partials/footer') %>

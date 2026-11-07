@@ -1,0 +1,132 @@
+<%- include('../../partials/head', { title: title, bodyClass: 'app-page' }) %>
+
+<div class="app-shell">
+  <%- include('../../partials/nav') %>
+
+  <main class="app-main">
+    <header class="page-hero">
+      <div>
+        <p class="eyebrow">Usuarios</p>
+        <h2><%= mode === 'create' ? 'Crear acceso' : 'Editar acceso' %></h2>
+      </div>
+      <a class="button button-ghost" href="/admin/usuarios">Volver</a>
+    </header>
+
+    <%- include('../../partials/alerts') %>
+
+    <section class="panel form-panel">
+      <form class="form-grid" method="POST" action="<%= mode === 'create' ? '/admin/usuarios/nuevo' : `/admin/usuarios/${user.id_usuario}/editar` %>">
+        <% if (mode === 'create') { %>
+          <label class="field field-wide">
+            <span>Persona existente (opcional)</span>
+            <select name="id_persona" data-persona-selection>
+              <option value="" <%= !user || !user.id_persona ? 'selected' : '' %>>Crear persona nueva</option>
+              <% personas.forEach(function(persona) { %>
+                <option value="<%= persona.id_persona %>" <%= user && String(user.id_persona) === String(persona.id_persona) ? 'selected' : '' %>><%= persona.nombre_completo %> - <%= persona.nro_doc %></option>
+              <% }) %>
+            </select>
+          </label>
+          <fieldset class="field field-wide" data-new-person>
+            <legend>Datos de la persona nueva</legend>
+            <div class="form-grid">
+              <label class="field">
+                <span>Tipo de documento</span>
+                <select name="tipo_doc" required data-new-person-required>
+                  <option value="">Seleccione</option>
+                  <option value="CC" <%= user && user.tipo_doc === 'CC' ? 'selected' : '' %>>Cédula de ciudadanía</option>
+                  <option value="CE" <%= user && user.tipo_doc === 'CE' ? 'selected' : '' %>>Cédula de extranjería</option>
+                  <option value="Pasaporte" <%= user && user.tipo_doc === 'Pasaporte' ? 'selected' : '' %>>Pasaporte</option>
+                  <option value="NIT" <%= user && user.tipo_doc === 'NIT' ? 'selected' : '' %>>NIT</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Número de documento</span>
+                <input type="text" name="nro_doc" value="<%= (user && user.nro_doc) || '' %>" maxlength="30" required data-new-person-required>
+              </label>
+              <label class="field">
+                <span>Nombres</span>
+                <input type="text" name="nombres" value="<%= (user && user.nombres) || '' %>" maxlength="100" required data-new-person-required>
+              </label>
+              <label class="field">
+                <span>Apellidos</span>
+                <input type="text" name="apellidos" value="<%= (user && user.apellidos) || '' %>" maxlength="100" required data-new-person-required>
+              </label>
+              <label class="field">
+                <span>Correo electrónico (opcional)</span>
+                <input type="email" name="email" value="<%= (user && user.email) || '' %>" maxlength="150">
+              </label>
+              <label class="field">
+                <span>Teléfono (opcional)</span>
+                <input type="tel" name="telefono" value="<%= (user && user.telefono) || '' %>" maxlength="30">
+              </label>
+            </div>
+          </fieldset>
+        <% } else { %>
+          <div class="info-list field-wide">
+            <div><span>Persona</span><strong><%= user.nombres %> <%= user.apellidos %></strong></div>
+            <div><span>Documento</span><strong><%= user.nro_doc %></strong></div>
+          </div>
+        <% } %>
+
+        <label class="field">
+          <span>Nombre de usuario</span>
+          <input type="text" name="nombre_usuario" value="<%= (user && user.nombre_usuario) || '' %>" required>
+        </label>
+
+        <label class="field">
+          <span>Rol</span>
+          <select name="rol" required>
+            <% if (mode === 'create') { %>
+              <option value="" selected disabled>Seleccione los permisos</option>
+            <% } %>
+            <option value="ADMINISTRADOR" <%= (user && user.rol === 'ADMINISTRADOR') ? 'selected' : '' %>>Administrador</option>
+            <option value="CONSULTA_PQRS" <%= (user && user.rol === 'CONSULTA_PQRS') ? 'selected' : '' %>>Consulta de PQRS (solo lectura, sin datos personales)</option>
+            <% if (mode === 'edit' && user && user.rol === 'RESIDENTE') { %>
+              <option value="RESIDENTE" selected>Cuenta anterior (sin acceso al dashboard)</option>
+            <% } %>
+          </select>
+          <% if (mode === 'create') { %>
+            <small>El rol de consulta solo permite ver tickets, asuntos, tipos, estados, fechas, descripciones y respuestas. No permite gestionar solicitudes ni ver datos de contacto, grupo étnico o adjuntos.</small>
+          <% } %>
+        </label>
+
+        <label class="field">
+          <span>Contraseña <%= mode === 'edit' ? '(dejar vacío para conservar)' : '' %></span>
+          <input type="password" name="clave" placeholder="Ingrese una contraseña segura">
+        </label>
+
+        <label class="field checkbox-field">
+          <input type="checkbox" name="activo" <%= !user || user.activo ? 'checked' : '' %>>
+          <span>Usuario activo</span>
+        </label>
+
+        <div class="form-actions">
+          <button class="button button-primary" type="submit"><%= mode === 'create' ? 'Crear usuario' : 'Guardar cambios' %></button>
+          <a class="button button-ghost" href="/admin/usuarios">Cancelar</a>
+        </div>
+      </form>
+    </section>
+  </main>
+</div>
+
+<% if (mode === 'create') { %>
+  <script>
+    (() => {
+      const selection = document.querySelector('[data-persona-selection]');
+      const newPerson = document.querySelector('[data-new-person]');
+      const fields = newPerson.querySelectorAll('[data-new-person-required]');
+      const updatePersonFields = () => {
+        const creatingPerson = !selection.value;
+        newPerson.hidden = !creatingPerson;
+        fields.forEach(field => {
+          field.required = creatingPerson;
+          field.disabled = !creatingPerson;
+        });
+      };
+      selection.addEventListener('change', updatePersonFields);
+      updatePersonFields();
+    })();
+  </script>
+<% } %>
+
+<%- include('../../partials/footer') %>

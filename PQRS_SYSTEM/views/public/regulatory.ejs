@@ -1,0 +1,29 @@
+<%- include('../partials/head', { title, bodyClass: 'public-page home-page regulatory-page' }) %>
+<%- include('../partials/public-header') %>
+<main>
+  <section class="home-hero" aria-labelledby="regulatory-title">
+    <div class="institutional-intro">
+      <p class="eyebrow">Información y transparencia</p>
+      <h1 id="regulatory-title">Gestor <span>normativo</span></h1>
+      <p>Consulta y descarga documentos relacionados con la prestación de los servicios públicos.</p>
+    </div>
+  </section>
+  <section class="public-main home-content" aria-label="Documentos normativos">
+    <div class="institutional-grid">
+    <article class="service-action regulatory-document" aria-labelledby="ccu-title">
+      <span class="step-number">PDF</span>
+      <h2 id="ccu-title">Contrato de Condiciones Uniformes (CCU)</h2>
+      <p>Documento de consulta sobre las condiciones que regulan la relación entre el prestador del servicio público y sus usuarios, incluidos sus derechos y obligaciones.</p>
+      <p class="regulatory-source">Fuente: <a href="https://www.superservicios.gov.co/sites/default/files/inline-files/Contrato-de-Condiciones-Uniformes.pdf" target="_blank" rel="noopener noreferrer"></a>. El archivo corresponde al documento de esta fuente; no se identifica como un contrato propio de Serranía SAS ESP.</p>
+      <a class="button button-primary" href="/gestor-normativo/ccu/descargar" download="Contrato-de-Condiciones-Uniformes.pdf" aria-label="Descargar Contrato de Condiciones Uniformes en PDF">Descargar PDF</a>
+    </article>
+    <article class="service-action regulatory-document" aria-labelledby="decree-title">
+      <span class="step-number">PDF</span>
+      <h2 id="decree-title">Decreto 1077 de 2015</h2>
+      <p>Decreto Único Reglamentario del Sector Vivienda, Ciudad y Territorio. Compila disposiciones del sector, incluidas las relacionadas con la prestación del servicio público de aseo.</p>
+      <a class="button button-primary" href="/documents/Decreto-1077-de-2015-Sector-Vivienda,-Ciudad-y-Territorio-Gestor-Normativo.pdf" download="Decreto-1077-de-2015.pdf" aria-label="Descargar Decreto 1077 de 2015 en PDF">Descargar PDF</a>
+    </article>
+    </div>
+  </section>
+</main>
+<%- include('../partials/public-footer') %>

@@ -1,0 +1,106 @@
+<%- include('../../partials/head', { title: title, bodyClass: 'app-page' }) %>
+
+<div class="app-shell">
+  <%- include('../../partials/nav') %>
+
+  <main class="app-main">
+    <header class="page-hero">
+      <div>
+        <p class="eyebrow">Detalle PQRS</p>
+        <h2><%= pqrs.asunto %></h2>
+        <p class="ticket-number"><%= pqrs.ticket %></p>
+      </div>
+      <a class="button" href="/admin/pqrs">Volver al listado</a>
+    </header>
+
+    <%- include('../../partials/alerts') %>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h3>Información</h3>
+      </div>
+      <div class="panel-body">
+        <p><strong>Solicitante:</strong> <%= pqrs.solicitante %></p>
+        <p><strong>Tipo de documento:</strong> <%= pqrs.tipo_documento || 'No registrado (solicitud anterior)' %></p>
+        <p><strong>Número de documento:</strong> <%= pqrs.numero_documento || 'No registrado' %></p>
+        <p><strong>Grupo étnico:</strong> <%= pqrs.grupo_etnico || 'No registrado (solicitud anterior)' %></p>
+        <% if (attachment) { %><p><strong>Adjunto:</strong> <a class="button button-small" href="/admin/pqrs/<%= pqrs.id_pqrs %>/adjunto">Descargar <%= attachment.nombre %></a></p><% } %>
+        <p><strong>Correo:</strong> <%= pqrs.email || 'Sin correo' %></p>
+        <p><strong>Teléfono:</strong> <%= pqrs.telefono || 'Sin teléfono' %></p>
+        <p><strong>Dirección:</strong> <%= pqrs.direccion || pqrs.unidad || 'Sin dirección' %></p>
+        <p><strong>Servicio:</strong> <%= pqrs.servicio || 'Registro anterior' %></p>
+        <p><strong>Tipo:</strong> <%= pqrs.tipo %></p>
+        <p><strong>Estado actual:</strong> <span class="badge"><%= pqrs.estado_pqrs || pqrs.estado_nombre %></span></p>
+        <p><strong>Descripción:</strong></p>
+        <div class="box"><pre><%= pqrs.descripcion %></pre></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h3>Trayectoria de la PQRS</h3>
+      <ol class="tracking-timeline">
+        <% history.forEach(function(item) { %>
+          <li><span class="badge"><%= item.estado %></span> <time><%= new Date(item.fecha).toLocaleDateString('es-CO') %></time><p><%= item.comentario %></p></li>
+        <% }) %>
+      </ol>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h3>Respuestas y observaciones</h3>
+      </div>
+      <div class="panel-body">
+        <% if (responses && responses.length) { %>
+          <ul class="timeline">
+            <% responses.forEach(function(r) { %>
+              <li>
+                <div class="meta"><%= r.fecha ? new Date(r.fecha).toLocaleDateString('es-CO') : '' %> - Usuario: <%= r.id_persona %></div>
+                <div class="content"><%= r.respuesta %></div>
+              </li>
+            <% }) %>
+          </ul>
+        <% } else { %>
+          <p class="muted">No hay respuestas registradas.</p>
+        <% } %>
+      </div>
+    </section>
+
+    <% if (canRespond) { %>
+      <section class="panel">
+        <div class="panel-head">
+          <h3>Registrar respuesta oficial y seguimiento</h3>
+        </div>
+        <form method="POST" action="/admin/pqrs/<%= pqrs.id_pqrs %>/responder" class="panel-body">
+          <label class="field">
+            <span>Respuesta (visible para quien tenga el ticket; no incluya datos personales)</span>
+            <textarea name="respuesta" rows="4" required></textarea>
+          </label>
+          <label class="field">
+            <span>Cambiar estado (opcional)</span>
+            <select name="nuevo_estado">
+              <option value="">-- mantener --</option>
+              <% states.forEach(function(state) { %>
+                <option value="<%= state.nombre %>"><%= state.nombre %></option>
+              <% }) %>
+            </select>
+          </label>
+          <div class="form-actions">
+            <button class="button button-primary" type="submit">Registrar respuesta</button>
+          </div>
+        </form>
+      </section>
+    <% } else { %>
+      <section class="panel">
+        <div class="panel-head">
+          <h3>Respuesta oficial</h3>
+        </div>
+        <div class="panel-body">
+          <p class="muted">Esta PQRS ya quedó en estado Solucionado. Solo puede consultarse y no admite más respuestas.</p>
+        </div>
+      </section>
+    <% } %>
+
+  </main>
+</div>
+
+<%- include('../../partials/footer') %>

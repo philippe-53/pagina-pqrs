@@ -1,0 +1,12 @@
+<%- include('../partials/head', { title: title, bodyClass: 'error-page' }) %>
+
+<main class="error-shell">
+  <section class="error-card">
+    <p class="eyebrow">Acceso restringido</p>
+    <h1>No tiene permisos para ver esta sección</h1>
+    <p>La sesión actual no posee los privilegios necesarios para continuar.</p>
+    <a class="button button-primary" href="/login">Volver al login</a>
+  </section>
+</main>
+
+<%- include('../partials/footer') %>

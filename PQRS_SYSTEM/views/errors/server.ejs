@@ -1,0 +1,12 @@
+<%- include('../partials/head', { title: title, bodyClass: 'error-page' }) %>
+
+<main class="error-shell">
+  <section class="error-card">
+    <p class="eyebrow">Error interno</p>
+    <h1>No fue posible completar la solicitud</h1>
+    <p><%= errorMessage %></p>
+    <a class="button button-primary" href="/login">Ir al inicio</a>
+  </section>
+</main>
+
+<%- include('../partials/footer') %>

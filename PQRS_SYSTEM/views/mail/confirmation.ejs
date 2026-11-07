@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PQRS recibida</title>
+</head>
+<body style="margin:0;padding:0;background-color:#eef5f4;font-family:Arial,Helvetica,sans-serif;color:#07365d;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#eef5f4;">
+    <tr><td align="center" style="padding:24px 12px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:680px;background-color:#ffffff;border-radius:20px;border-top:6px solid #73b833;">
+        <tr><td align="center" style="padding:28px 24px 12px;text-align:center;">
+          <img src="cid:serrania-logo" alt="Serranía SAS ESP" width="280" style="display:block;margin:0 auto;width:100%;max-width:280px;height:auto;">
+          <p style="margin:16px 0 0;font-size:20px;font-weight:bold;">Sistema de PQRS</p>
+        </td></tr>
+        <tr><td align="center" style="padding:16px 24px;">
+          <div style="font-size:48px;color:#20803a;line-height:1.2;">&#10003;</div>
+          <% if (isCompany) { %>
+          <h1 style="margin:12px 0;font-size:32px;line-height:1.2;color:#20803a;"><span style="color:#07365d;">¡Nueva PQRS</span> recibida!</h1>
+          <p style="font-size:18px;line-height:1.6;margin:16px 0;text-align:left;">Estimado(a) colaborador(a):</p>
+          <p style="font-size:18px;line-height:1.6;margin:16px 0;text-align:left;">Le informamos que se ha registrado una nueva <strong>PQRS</strong> en nuestro sistema, para su <strong>atención y gestión</strong> oportuna.</p>
+          <% } else { %>
+          <h1 style="margin:12px 0;font-size:32px;line-height:1.2;color:#20803a;">¡Gracias por tu solicitud!</h1>
+          <p style="font-size:18px;line-height:1.6;margin:16px 0;">Hemos recibido tu PQRS en <strong>Serranía SAS ESP</strong>. Tu solicitud ha sido registrada y será atendida en el menor tiempo posible por nuestro equipo.</p>
+          <% } %>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:<%= isCompany ? '#e2f1fc' : '#e4f2d9' %>;border-radius:18px;">
+            <tr><td align="center" style="padding:22px 12px;">
+              <p style="margin:0 0 8px;font-size:18px;font-weight:bold;">Número de ticket:</p>
+              <strong style="font-size:22px;line-height:1.5;color:#08743e;word-break:break-all;"><%= ticket %></strong>
+            </td></tr>
+          </table>
+          <% if (isCompany) { %>
+          <p style="font-size:18px;line-height:1.6;margin:20px 0;">Por favor, ingrese al sistema para revisar los detalles de la solicitud y realizar el seguimiento correspondiente.</p>
+          <% } else { %>
+          <p style="font-size:18px;line-height:1.6;margin:20px 0;">Puedes hacer seguimiento a tu solicitud en nuestra página web. Pulsa el botón e ingresa tu número de ticket.</p>
+          <% } %>
+          <table role="presentation" cellpadding="0" cellspacing="0">
+            <tr><td align="center" bgcolor="#08743e" style="border-radius:32px;">
+              <a href="<%= consultationUrl %>" style="display:inline-block;padding:16px 28px;color:#ffffff;text-decoration:none;font-size:20px;font-weight:bold;"><%= isCompany ? 'Gestionar PQRS' : 'Consultar mi PQRS' %></a>
+            </td></tr>
+          </table>
+          <p style="font-size:14px;line-height:1.6;margin:24px 0 8px;">Si el botón no funciona, abre:<br><a href="<%= consultationUrl %>" style="color:#075482;word-break:break-all;"><%= consultationUrl %></a></p>
+          <% if (isCompany) { %>
+          <p style="font-size:14px;line-height:1.6;">Inicie sesión con una cuenta administrativa y busque el número de ticket indicado. El ticket es privado: no lo publique ni lo comparta con terceros.</p>
+          <% } else { %>
+          <p style="font-size:14px;line-height:1.6;">El ticket es privado: no lo publiques ni lo compartas con terceros. Este mensaje confirma el registro, no la solución de la solicitud.</p>
+          <% } %>
+        </td></tr>
+        <tr><td align="center" style="padding:22px;background-color:#07365d;border-top:6px solid #73b833;color:#ffffff;">
+          <p style="margin:0;font-size:15px;line-height:1.6;">Serranía SAS ESP<br>Comprometidos con un municipio más limpio.<% if (!isCompany) { %><br><a href="<%= websiteUrl %>" style="color:#ffffff;">www.serraniasas.com</a><% } %></p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>

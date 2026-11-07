@@ -1,0 +1,53 @@
+<%- include('../../partials/head', { title: title, bodyClass: 'app-page' }) %>
+
+<div class="app-shell">
+  <%- include('../../partials/nav') %>
+
+  <main class="app-main">
+    <header class="page-hero">
+      <div>
+        <p class="eyebrow">Detalle PQRS</p>
+        <h2>Solicitud #<%= pqrs.id_pqrs %> - <%= pqrs.asunto %></h2>
+      </div>
+      <a class="button" href="/resident/pqrs">Volver a mis PQRS</a>
+    </header>
+
+    <%- include('../../partials/alerts') %>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h3>Información</h3>
+      </div>
+      <div class="panel-body">
+        <p><strong>Unidad:</strong> <%= pqrs.unidad %></p>
+        <p><strong>Tipo:</strong> <%= pqrs.tipo %></p>
+        <p><strong>Estado actual:</strong> <span class="badge"><%= pqrs.estado_pqrs || pqrs.estado_nombre %></span></p>
+        <p><strong>Descripción:</strong></p>
+        <div class="box"><pre><%= pqrs.descripcion %></pre></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h3>Respuestas y observaciones</h3>
+      </div>
+      <div class="panel-body">
+        <% if (responses && responses.length) { %>
+          <ul class="timeline">
+            <% responses.forEach(function(r) { %>
+              <li>
+                <div class="meta"><%= r.fecha ? new Date(r.fecha).toLocaleDateString('es-CO') : '' %></div>
+                <div class="content"><%= r.respuesta %></div>
+              </li>
+            <% }) %>
+          </ul>
+        <% } else { %>
+          <p class="muted">No hay respuestas registradas.</p>
+        <% } %>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<%- include('../../partials/footer') %>

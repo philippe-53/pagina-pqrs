@@ -1,0 +1,94 @@
+<%- include('../../partials/head', { title: title, bodyClass: 'app-page' }) %>
+
+<div class="app-shell">
+  <%- include('../../partials/nav') %>
+
+  <main class="app-main">
+    <header class="page-hero">
+      <div>
+        <p class="eyebrow">Usuarios</p>
+        <h2>Administración de accesos</h2>
+      </div>
+      <a class="button button-primary" href="/admin/usuarios/nuevo">Crear usuario</a>
+    </header>
+
+    <%- include('../../partials/alerts') %>
+
+    <section class="stats-grid">
+      <article class="stat-card"><span>Total</span><strong><%= summary.total_usuarios %></strong></article>
+      <article class="stat-card"><span>Administradores</span><strong><%= summary.administradores %></strong></article>
+      <article class="stat-card"><span>Residentes</span><strong><%= summary.residentes %></strong></article>
+      <article class="stat-card"><span>Activos</span><strong><%= summary.activos %></strong></article>
+    </section>
+
+    <section class="panel">
+      <form class="filters-grid" method="GET" action="/admin/usuarios">
+        <label class="field">
+          <span>Buscar</span>
+          <input type="text" name="q" value="<%= filters.q || '' %>" placeholder="Usuario, documento, correo o nombre">
+        </label>
+        <label class="field">
+          <span>Rol</span>
+          <select name="rol">
+            <option value="">Todos</option>
+            <option value="ADMINISTRADOR" <%= filters.rol === 'ADMINISTRADOR' ? 'selected' : '' %>>Administrador</option>
+            <option value="CONSULTA_PQRS" <%= filters.rol === 'CONSULTA_PQRS' ? 'selected' : '' %>>Consulta de PQRS</option>
+            <option value="RESIDENTE" <%= filters.rol === 'RESIDENTE' ? 'selected' : '' %>>Residente</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Estado</span>
+          <select name="activo">
+            <option value="">Todos</option>
+            <option value="1" <%= String(filters.activo) === '1' ? 'selected' : '' %>>Activos</option>
+            <option value="0" <%= String(filters.activo) === '0' ? 'selected' : '' %>>Inactivos</option>
+          </select>
+        </label>
+        <div class="filters-actions">
+          <button class="button button-primary" type="submit">Filtrar</button>
+          <a class="button button-ghost" href="/admin/usuarios">Limpiar</a>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h3>Usuarios registrados</h3>
+        <span class="muted"><%= users.length %> resultados</span>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Usuario</th>
+              <th>Persona</th>
+              <th>Documento</th>
+              <th>Rol</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach(function(item) { %>
+              <tr>
+                <td><%= item.id_usuario %></td>
+                <td><%= item.nombre_usuario %></td>
+                <td><%= item.nombres %> <%= item.apellidos %></td>
+                <td><%= item.nro_doc %></td>
+                <td><span class="badge"><%= item.rol %></span></td>
+                <td><span class="badge <%= item.activo ? 'badge-success' : 'badge-muted' %>"><%= item.activo ? 'Activo' : 'Inactivo' %></span></td>
+                <td class="actions-cell">
+                  <a class="button button-small" href="/admin/usuarios/<%= item.id_usuario %>/editar">Editar</a>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<%- include('../../partials/footer') %>

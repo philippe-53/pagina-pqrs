@@ -1,0 +1,111 @@
+<%- include('../../partials/head', { title: title, bodyClass: 'app-page' }) %>
+
+<div class="app-shell">
+  <%- include('../../partials/nav') %>
+
+  <main class="app-main">
+    <header class="page-hero">
+      <div>
+        <p class="eyebrow">Administración de PQRS</p>
+        <h2>Listar, buscar, filtrar y gestionar solicitudes</h2>
+      </div>
+      <a class="button button-primary" href="/admin/pqrs/nueva">Nueva PQRS</a>
+    </header>
+
+    <%- include('../../partials/alerts') %>
+
+    <section class="panel">
+      <form class="filters-grid" method="GET" action="/admin/pqrs">
+        <label class="field">
+          <span>Buscar</span>
+          <input type="text" name="q" value="<%= filters.q || '' %>" placeholder="Ticket, asunto, solicitante o dirección">
+        </label>
+        <label class="field">
+          <span>Estado</span>
+          <select name="estado">
+            <option value="">Todos</option>
+            <% states.forEach(function(state) { %>
+              <option value="<%= state.nombre %>" <%= (filters.estado || '').toLowerCase() === state.nombre.toLowerCase() ? 'selected' : '' %>><%= state.nombre %></option>
+            <% }) %>
+          </select>
+        </label>
+        <label class="field">
+          <span>Tipo</span>
+          <select name="tipo">
+            <option value="">Todos</option>
+            <% pqrsTypes.forEach(function(type) { %>
+              <option value="<%= type %>" <%= filters.tipo === type ? 'selected' : '' %>><%= type %></option>
+            <% }) %>
+          </select>
+        </label>
+        <label class="field">
+          <span>Ordenar por</span>
+          <select name="sortBy">
+            <option value="fecha" <%= filters.sortBy === 'fecha' ? 'selected' : '' %>>Fecha</option>
+            <option value="asunto" <%= filters.sortBy === 'asunto' ? 'selected' : '' %>>Asunto</option>
+            <option value="estado" <%= filters.sortBy === 'estado' ? 'selected' : '' %>>Estado</option>
+            <option value="solicitante" <%= filters.sortBy === 'solicitante' ? 'selected' : '' %>>Solicitante</option>
+            <option value="unidad" <%= filters.sortBy === 'unidad' ? 'selected' : '' %>>Dirección</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Dirección</span>
+          <select name="order">
+            <option value="desc" <%= filters.order !== 'asc' ? 'selected' : '' %>>Descendente</option>
+            <option value="asc" <%= filters.order === 'asc' ? 'selected' : '' %>>Ascendente</option>
+          </select>
+        </label>
+        <div class="filters-actions">
+          <button class="button button-primary" type="submit">Aplicar</button>
+          <a class="button button-ghost" href="/admin/pqrs">Limpiar</a>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h3>Resultados</h3>
+        <span class="muted"><%= pqrs.length %> registros</span>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Ticket</th>
+              <th>Asunto</th>
+              <th>Solicitante</th>
+              <th>Dirección / servicio</th>
+              <th>Tipo</th>
+              <th>Estado</th>
+              <th>Fecha</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% pqrs.forEach(function(item) { %>
+              <tr>
+                <td><a href="/admin/pqrs/<%= item.id_pqrs %>"><%= item.ticket %></a></td>
+                <td><%= item.asunto %></td>
+                <td><%= item.solicitante %></td>
+                <td><%= item.direccion || item.unidad || '' %><br><small><%= item.servicio || '' %></small></td>
+                <td><%= item.tipo %></td>
+                <td><span class="badge"><%= item.estado_pqrs || item.estado_nombre %></span></td>
+                <td><%= item.fecha_creacion ? new Date(item.fecha_creacion).toLocaleDateString('es-CO') : '' %></td>
+                <td class="actions-cell">
+                  <a class="button button-small" href="/admin/pqrs/<%= item.id_pqrs %>">Ver</a>
+                  <a class="button button-small" href="/admin/pqrs/<%= item.id_pqrs %>/editar">Editar</a>
+                  <form method="POST" action="/admin/pqrs/<%= item.id_pqrs %>/eliminar" class="inline-form" data-confirm="¿Desea eliminar esta PQRS?">
+                    <button class="button button-small button-danger" type="submit">Eliminar</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<%- include('../../partials/footer') %>

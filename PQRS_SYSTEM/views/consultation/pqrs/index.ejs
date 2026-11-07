@@ -1,0 +1,79 @@
+<%- include('../../partials/head', { title: title, bodyClass: 'app-page' }) %>
+
+<div class="app-shell">
+  <%- include('../../partials/nav') %>
+
+  <main class="app-main">
+    <header class="page-hero">
+      <div>
+        <p class="eyebrow">Acceso de solo lectura</p>
+        <h2>Consulta de PQRS</h2>
+        <p>Consulte tickets, asuntos, tipos, estados y fechas. Los datos personales y los adjuntos no están disponibles en este acceso.</p>
+      </div>
+    </header>
+
+    <%- include('../../partials/alerts') %>
+
+    <section class="panel">
+      <form class="filters-grid" method="GET" action="/consulta-pqrs">
+        <label class="field">
+          <span>Buscar por ticket, asunto o descripción</span>
+          <input type="text" name="q" value="<%= filters.q || '' %>" placeholder="Ticket o palabras clave">
+        </label>
+        <label class="field">
+          <span>Estado</span>
+          <select name="estado">
+            <option value="">Todos</option>
+            <% states.forEach(function(state) { %>
+              <option value="<%= state.nombre %>" <%= (filters.estado || '').toLowerCase() === state.nombre.toLowerCase() ? 'selected' : '' %>><%= state.nombre %></option>
+            <% }) %>
+          </select>
+        </label>
+        <label class="field">
+          <span>Tipo</span>
+          <select name="tipo">
+            <option value="">Todos</option>
+            <% pqrsTypes.forEach(function(type) { %>
+              <option value="<%= type %>" <%= filters.tipo === type ? 'selected' : '' %>><%= type %></option>
+            <% }) %>
+          </select>
+        </label>
+        <div class="filters-actions">
+          <button class="button button-primary" type="submit">Buscar</button>
+          <a class="button button-ghost" href="/consulta-pqrs">Limpiar</a>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h3>PQRS</h3>
+        <span class="muted"><%= pqrs.length %> resultados</span>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Ticket</th><th>Asunto</th><th>Tipo</th><th>Estado</th><th>Fecha</th><th>Detalle</th></tr>
+          </thead>
+          <tbody>
+            <% pqrs.forEach(function(item) { %>
+              <tr>
+                <td><%= item.ticket %></td>
+                <td><%= item.asunto %></td>
+                <td><%= item.tipo %></td>
+                <td><span class="badge"><%= item.estado %></span></td>
+                <td><%= item.fecha_creacion ? new Date(item.fecha_creacion).toLocaleDateString('es-CO') : '' %></td>
+                <td><a class="button button-small" href="/consulta-pqrs/<%= item.id_pqrs %>">Ver PQRS</a></td>
+              </tr>
+            <% }) %>
+            <% if (!pqrs.length) { %>
+              <tr><td colspan="6">No se encontraron PQRS.</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<%- include('../../partials/footer') %>

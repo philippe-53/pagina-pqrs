@@ -1,0 +1,12 @@
+<header class="public-header">
+  <a class="public-brand" href="/" aria-label="Serranía, inicio">
+    <img class="site-logo" src="/images/serrania-logo.png" alt="Serranía SAS ESP" width="640" height="200">
+  </a>
+  <nav aria-label="Navegación principal">
+    <a href="/" <%- currentPath === '/' ? 'aria-current="page"' : '' %>>Inicio</a>
+    <a href="/quienes-somos" <%- currentPath === '/quienes-somos' ? 'aria-current="page"' : '' %>>Quiénes somos</a>
+    <a href="/gestor-normativo" <%- currentPath === '/gestor-normativo' ? 'aria-current="page"' : '' %>>Gestor normativo</a>
+    <a href="/atencion-ciudadano" <%- currentPath === '/atencion-ciudadano' || currentPath.startsWith('/pqrs/') || currentPath === '/consultar' ? 'aria-current="page"' : '' %>>Atención y servicios al ciudadano</a>
+    <a class="button button-ghost button-small" href="<%= currentUser && currentUser.role === 'ADMINISTRADOR' ? '/admin' : '/login' %>">Administración</a>
+  </nav>
+</header>

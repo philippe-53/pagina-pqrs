@@ -1,0 +1,35 @@
+<%- include('../partials/head', { title: title, bodyClass: 'auth-page' }) %>
+
+<main class="auth-frame">
+  <section class="auth-card">
+    <div class="auth-hero">
+      <a class="brand-home brand-home-auth" href="/" aria-label="Serranía, inicio">
+        <img class="site-logo site-logo-auth" src="/images/serrania-logo.png" alt="Serranía SAS ESP" width="640" height="200">
+      </a>
+      <p class="eyebrow">Serranía SAS ESP</p>
+      <h1>Acceso administrativo</h1>
+      <p>Ingreso exclusivo del administrador para responder y dar seguimiento a las PQRS.</p>
+    </div>
+
+    <%- include('../partials/alerts') %>
+
+    <form class="form-stack" method="POST" action="/login" autocomplete="off">
+      <label class="field">
+        <span>Usuario</span>
+        <input type="text" name="username" placeholder="Usuario administrador" autocomplete="username" required>
+      </label>
+
+      <label class="field">
+        <span>Contraseña</span>
+        <input type="password" name="password" placeholder="Ingrese su contraseña" required>
+      </label>
+
+      <button class="button button-primary button-block" type="submit">Ingresar</button>
+    </form>
+
+    <a class="button button-ghost button-block" href="/">Volver al inicio</a>
+    <p class="auth-note">¿Eres usuario del servicio? <a href="/">Registra o consulta tu PQRS sin iniciar sesión.</a></p>
+  </section>
+</main>
+
+<%- include('../partials/footer') %>

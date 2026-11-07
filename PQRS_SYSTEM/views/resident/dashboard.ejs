@@ -1,0 +1,80 @@
+<%- include('../partials/head', { title: title, bodyClass: 'app-page' }) %>
+
+<div class="app-shell">
+  <%- include('../partials/nav') %>
+
+  <main class="app-main">
+    <header class="page-hero">
+      <div>
+        <p class="eyebrow">Panel de residente</p>
+        <h2>Sus datos y solicitudes recientes</h2>
+        <p>Consulte su perfil, cree nuevas PQRS y actualice únicamente las solicitudes que sigan abiertas.</p>
+      </div>
+      <a class="button button-primary" href="/resident/pqrs/nueva">Crear PQRS</a>
+    </header>
+
+    <%- include('../partials/alerts') %>
+
+    <section class="stats-grid">
+      <article class="stat-card"><span>Total PQRS</span><strong><%= summary.total %></strong></article>
+      <article class="stat-card"><span>Abiertas</span><strong><%= summary.abiertas %></strong></article>
+      <article class="stat-card"><span>En proceso</span><strong><%= summary.enProceso %></strong></article>
+      <article class="stat-card"><span>Solucionadas</span><strong><%= summary.solucionadas %></strong></article>
+    </section>
+
+    <section class="two-column-grid">
+      <article class="panel">
+        <div class="panel-head"><h3>Mi perfil</h3></div>
+        <div class="info-list">
+          <div><span>Nombre</span><strong><%= profile.nombres %> <%= profile.apellidos %></strong></div>
+          <div><span>Documento</span><strong><%= profile.nro_doc %></strong></div>
+          <div><span>Email</span><strong><%= profile.email %></strong></div>
+          <div><span>Teléfono</span><strong><%= profile.telefono %></strong></div>
+          <div><span>Unidad</span><strong><%= profile.numero_unidad || 'No asignada' %></strong></div>
+          <div><span>Conjunto</span><strong><%= profile.conjunto || 'No disponible' %></strong></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head"><h3>Atajos</h3></div>
+        <div class="shortcut-list">
+          <a class="shortcut-card" href="/resident/pqrs">Ver mis PQRS</a>
+          <a class="shortcut-card" href="/resident/pqrs/nueva">Crear una nueva</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h3>Últimas solicitudes</h3>
+        <a href="/resident/pqrs">Abrir listado</a>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Asunto</th>
+              <th>Tipo</th>
+              <th>Estado</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% recentPqrs.forEach(function(item) { %>
+              <tr>
+                <td><%= item.id_pqrs %></td>
+                <td><%= item.asunto %></td>
+                <td><%= item.tipo %></td>
+                <td><span class="badge"><%= item.estado_pqrs || item.estado_nombre %></span></td>
+                <td><%= item.fecha_creacion ? new Date(item.fecha_creacion).toLocaleDateString('es-CO') : '' %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<%- include('../partials/footer') %>

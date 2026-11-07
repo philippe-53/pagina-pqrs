@@ -1,0 +1,28 @@
+<%- include('../partials/head', { title, bodyClass: 'public-page home-page about-page' }) %>
+<%- include('../partials/public-header') %>
+<main>
+  <section class="home-hero" aria-labelledby="about-title">
+    <div class="institutional-intro">
+      <p class="eyebrow">Serranía SAS ESP</p>
+      <h1 id="about-title">Quiénes <span>somos</span></h1>
+      <p>Somos una empresa especializada en soluciones integrales de gestión ambiental y servicios públicos, con capacidad técnica y operativa para intervenir en todo el ciclo de los residuos. Diseñamos, operamos y administramos procesos que incluyen recolección, transporte, clasificación, valorización, disposición final y gestión de infraestructuras ambientales como ECAs y Parques Tecnológicos Ambientales.</p>
+    </div>
+  </section>
+  <section class="public-main home-content" aria-label="Información institucional">
+    <div class="institutional-grid">
+      <% const sections = [
+        { heading: 'Visión', text: 'Para el año 2030, Serranía SAS ESP será líder en la gestión ambiental y de aseo, reconocida por su excelencia, sostenibilidad y compromiso con la protección del medio ambiente. Seremos un modelo en la industria, aplicando tecnologías innovadoras como parques tecnológicos ambientales para optimizar el tratamiento de residuos. Nuestra meta es construir un futuro más limpio, saludable y sostenible para las próximas generaciones, manteniendo siempre la transparencia, la confianza y la excelencia como pilares de nuestra gestión.' },
+        { heading: 'Misión', text: 'En Serranía SAS ESP trabajamos para ofrecer servicios de gestión ambiental y aseo de alta calidad, protegiendo el medio ambiente y mejorando la calidad de vida de las comunidades. Nos comprometemos a manejar los residuos de forma eficiente y sostenible, promover la educación y la conciencia ambiental, brindar servicios que aporten salud y bienestar, e innovar continuamente para reducir impactos negativos y aumentar nuestra eficiencia.' },
+        { heading: 'Objetivos generales', text: 'Contenido institucional pendiente de incorporar.' },
+        { heading: 'Objetivos específicos', text: 'Contenido institucional pendiente de incorporar.' }
+      ]; sections.forEach((section, index) => { %>
+        <article class="service-action institutional-card">
+          <span class="step-number"><%= String(index + 1).padStart(2, '0') %></span>
+          <h2><%= section.heading %></h2>
+          <p><%= section.text %></p>
+        </article>
+      <% }); %>
+    </div>
+  </section>
+</main>
+<%- include('../partials/public-footer') %>

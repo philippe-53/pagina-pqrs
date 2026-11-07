@@ -1,0 +1,26 @@
+<%- include('../partials/head', { title, bodyClass: 'public-page' }) %>
+<%- include('../partials/public-header') %>
+<main class="public-main public-narrow">
+  <section class="panel confirmation">
+    <span class="confirmation-icon" aria-hidden="true">✓</span>
+    <p class="eyebrow">Registro exitoso</p>
+    <h1>¡Gracias por tu solicitud!</h1>
+    <p>Hemos recibido tu PQRS en <strong>Serranía SAS ESP</strong>. Tu solicitud ha sido registrada y será atendida en el menor tiempo posible por nuestro equipo.</p>
+    <div class="confirmation-ticket">
+      <p>Número de ticket:</p>
+      <strong class="ticket-number"><%= ticket %></strong>
+    </div>
+    <p>Puedes hacer seguimiento a tu solicitud en nuestra página web. Guarda tu número de ticket para consultar las respuestas de nuestro equipo.</p>
+    <p class="badge">Estado inicial: Abierto</p>
+    <p>Las notificaciones para el correo suministrado y el equipo de atención quedan programadas al registrar el ticket. El envío depende de la disponibilidad del servicio de correo; esta pantalla no confirma su entrega. Si no recibes el mensaje, conserva el ticket y consulta directamente en la plataforma.</p>
+    <p>No necesitas una cuenta para consultar. El ticket es privado: no lo publiques ni lo compartas con terceros.</p>
+    <form method="POST" action="/consultar">
+      <input type="hidden" name="form_token" value="<%= publicFormToken %>">
+      <input type="hidden" name="ticket" value="<%= ticket %>">
+      <button class="button button-primary" type="submit">Consultar mi PQRS</button>
+      <a class="button button-ghost" href="/">Volver al inicio</a>
+    </form>
+    <p class="confirmation-motto">Serranía SAS ESP | Comprometidos con un municipio más limpio.</p>
+  </section>
+</main>
+<%- include('../partials/public-footer') %>

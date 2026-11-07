@@ -1,0 +1,57 @@
+<%- include('../../partials/head', { title: title, bodyClass: 'app-page' }) %>
+
+<div class="app-shell">
+  <%- include('../../partials/nav') %>
+
+  <main class="app-main">
+    <header class="page-hero">
+      <div>
+        <p class="eyebrow">PQRS</p>
+        <h2><%= mode === 'create' ? 'Crear solicitud' : 'Editar solicitud abierta' %></h2>
+      </div>
+      <a class="button button-ghost" href="/resident/pqrs">Volver</a>
+    </header>
+
+    <%- include('../../partials/alerts') %>
+
+    <section class="panel form-panel">
+      <form class="form-grid" method="POST" action="<%= mode === 'create' ? '/resident/pqrs/nueva' : `/resident/pqrs/${pqrs.id_pqrs}/editar` %>">
+        <label class="field">
+          <span>Unidad</span>
+          <select name="id_unidad" required>
+            <option value="">Seleccione una unidad</option>
+            <% units.forEach(function(unit) { %>
+              <option value="<%= unit.id_unidad %>" <%= String((pqrs && pqrs.id_unidad) || '') === String(unit.id_unidad) ? 'selected' : '' %>><%= unit.conjunto %> - <%= unit.numero %> (<%= unit.tipo_unidad %>)</option>
+            <% }) %>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Tipo</span>
+          <select name="tipo" required>
+            <% ['Petición', 'Queja', 'Reclamo', 'Sugerencia'].forEach(function(option) { %>
+              <option value="<%= option %>" <%= (pqrs && pqrs.tipo === option) ? 'selected' : '' %>><%= option %></option>
+            <% }) %>
+          </select>
+        </label>
+
+        <label class="field field-wide">
+          <span>Asunto</span>
+          <input type="text" name="asunto" value="<%= (pqrs && pqrs.asunto) || '' %>" maxlength="200" required>
+        </label>
+
+        <label class="field field-wide">
+          <span>Descripción</span>
+          <textarea name="descripcion" rows="6" maxlength="500" required><%= (pqrs && pqrs.descripcion) || '' %></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button class="button button-primary" type="submit"><%= mode === 'create' ? 'Guardar PQRS' : 'Actualizar PQRS' %></button>
+          <a class="button button-ghost" href="/resident/pqrs">Cancelar</a>
+        </div>
+      </form>
+    </section>
+  </main>
+</div>
+
+<%- include('../../partials/footer') %>

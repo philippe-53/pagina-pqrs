@@ -1,0 +1,30 @@
+<%- include('../partials/head', { title, bodyClass: 'public-page' }) %>
+<%- include('../partials/public-header') %>
+<main class="public-main public-narrow">
+  <header class="public-title"><p class="eyebrow">Atención al usuario</p><h1>Registra una nueva PQRS</h1><p>Completa tus datos y cuéntanos cómo podemos ayudarte. Los datos personales son obligatorios. El archivo adjunto es opcional.</p></header>
+  <% if (errors.length) { %>
+    <div class="alert alert-error" role="alert"><strong>Revisa la información:</strong><ul><% errors.forEach(function(error) { %><li><%= error %></li><% }) %></ul></div>
+  <% } %>
+  <form class="panel public-form form-grid" method="POST" action="/pqrs/nueva" enctype="multipart/form-data" data-prevent-double-submit>
+    <input type="hidden" name="form_token" value="<%= publicFormToken %>">
+    <input type="hidden" name="submission_token" value="<%= submissionToken %>">
+    <h2 class="field-wide">1. Tus datos de contacto</h2>
+    <label class="field field-wide"><span>Nombre completo</span><input name="nombre_contacto" autocomplete="name" maxlength="150" value="<%= values.nombre_contacto || '' %>" required></label>
+    <label class="field"><span>Tipo de documento</span><select name="tipo_documento" required><option value="">Selecciona un tipo</option><% documentTypes.forEach(function(option) { %><option <%= values.tipo_documento === option ? 'selected' : '' %>><%= option %></option><% }) %></select></label>
+    <label class="field"><span>Número de documento</span><input name="numero_documento" minlength="3" maxlength="30" pattern="<%= documentPattern %>" value="<%= values.numero_documento || '' %>" required></label>
+    <label class="field field-wide"><span>Grupo étnico</span><select name="grupo_etnico" required><option value="">Selecciona una opción</option><% ethnicGroups.forEach(function(option) { %><option <%= values.grupo_etnico === option ? 'selected' : '' %>><%= option %></option><% }) %></select><small>Información sensible y de acceso restringido. Selecciona «No aplica» si no deseas declarar pertenencia étnica.</small></label>
+    <label class="field"><span>Correo electrónico</span><input type="email" name="email_contacto" autocomplete="email" maxlength="150" value="<%= values.email_contacto || '' %>" required></label>
+    <label class="field"><span>Teléfono de contacto</span><input type="tel" name="telefono_contacto" autocomplete="tel" inputmode="numeric" minlength="10" maxlength="10" pattern="[0-9]{10}" title="Ingresa exactamente 10 dígitos, sin espacios ni símbolos" value="<%= values.telefono_contacto || '' %>" required><small>Ingresa exactamente 10 dígitos, sin espacios ni símbolos.</small></label>
+    <h2 class="field-wide">2. Información de la solicitud</h2>
+    <label class="field"><span>Tipo de PQRS</span><select name="tipo" required><option value="">Selecciona una opción</option><% types.forEach(function(type) { %><option <%= values.tipo === type ? 'selected' : '' %>><%= type %></option><% }) %></select></label>
+    <label class="field"><span>Servicio relacionado</span><select name="servicio" required><option value="">Selecciona un servicio</option><% services.forEach(function(service) { %><option <%= values.servicio === service ? 'selected' : '' %>><%= service %></option><% }) %></select></label>
+    <label class="field field-wide"><span>Dirección y barrio del servicio</span><input name="direccion" autocomplete="street-address" maxlength="255" value="<%= values.direccion || '' %>" placeholder="Indica dónde ocurrió la situación" required></label>
+    <label class="field field-wide"><span>Asunto</span><input name="asunto" maxlength="180" value="<%= values.asunto || '' %>" required></label>
+    <label class="field field-wide"><span>Descripción</span><textarea name="descripcion" rows="6" maxlength="5000" placeholder="Describe los hechos, la fecha y los detalles que nos ayuden a atender tu solicitud." required><%= values.descripcion || '' %></textarea></label>
+    <label class="field field-wide"><span>Imagen o archivo PDF (opcional)</span><input type="file" name="adjunto" data-max-bytes="<%= maxAttachmentSize %>" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"><small>Un archivo JPG, PNG o PDF de máximo 10 MB. Si hay un error en el formulario, selecciona el archivo nuevamente. Solo el administrador puede descargarlo.</small></label>
+    <div class="privacy-note field-wide"><strong>Uso de tus datos</strong><p>Serranía SAS ESP usará tus datos para gestionar y responder esta PQRS. Tu nombre, documento, grupo étnico, correo, teléfono, dirección y adjunto no se muestran en la consulta pública. El ticket permite ver el estado y las respuestas: compártelo solo con personas de confianza y evita incluir datos sensibles en la descripción o el archivo.</p></div>
+    <label class="consent field-wide"><input type="checkbox" name="autorizacion" value="si" required><span>Autorizo el tratamiento de mis datos personales, de identificación y de la información étnica que decida declarar, exclusivamente para gestionar esta solicitud.</span></label>
+    <div class="form-actions"><button class="button button-primary" type="submit">Enviar PQRS y generar ticket</button><a class="button button-ghost" href="/">Cancelar</a></div>
+  </form>
+</main>
+<%- include('../partials/public-footer') %>

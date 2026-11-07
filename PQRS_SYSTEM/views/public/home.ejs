@@ -1,0 +1,91 @@
+<%- include('../partials/head', { title, bodyClass: 'public-page home-page lobby-page' }) %>
+<%- include('../partials/public-header') %>
+<main>
+  <section class="home-hero lobby-cover" aria-labelledby="home-title">
+    <img class="lobby-cover-image" src="/images/carrusel/IMG_3140.webp" alt="" width="1400" height="1050" fetchpriority="high">
+    <div class="lobby-cover-inner">
+      <div class="home-hero-copy">
+        <p class="eyebrow">Bienvenidos a Serranía SAS ESP</p>
+        <h1 id="home-title">Cuidamos<br><span>nuestro entorno.</span><br>Juntos.</h1>
+        <h2>Juntos por un futuro más limpio.</h2>
+        <p>Conoce nuestra empresa y nuestro compromiso con la gestión de residuos sólidos, la limpieza y el aprovechamiento.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="/quienes-somos">Conoce nuestra empresa <span aria-hidden="true">→</span></a>
+          <a class="button button-ghost" href="/atencion-ciudadano">Atención al ciudadano</a>
+        </div>
+        <p class="hero-note">Comprometidos con un entorno más limpio.</p>
+      </div>
+    </div>
+  </section>
+  <div class="public-main home-content">
+  <section class="public-actions" aria-label="Información del servicio público de aseo">
+    <article class="service-action">
+      <span class="step-number">01</span>
+      <h2>Rutas y horarios</h2>
+      <h3>Recolección de residuos ordinarios</h3>
+      <p><strong>Lunes y viernes, dos veces por semana</strong>, en el casco urbano de El Cairo y la cabecera del corregimiento de Albán. El documento no especifica la hora de recolección.</p>
+      <p class="service-update"><strong>Operación temporal por el sismo del 10 de agosto de 2026:</strong> cuatro recolecciones por semana, con puntos fijos, jornadas especiales para Albán y rutas restringidas por vías colapsadas, hasta que se normalice la situación.</p>
+      <h3>Barrido de calles</h3>
+      <p>Seis días por semana: lunes, martes, jueves, viernes, sábado y domingo. <strong>Los miércoles no hay barrido.</strong> Turno único de ocho horas desde las <strong>7:00 a. m.</strong></p>
+      <p>Cinco macrorrutas (M1 a M5), de 1,22 a 2,37 km, con prioridad en la plaza principal y la calle real.</p>
+      <h3>Reciclaje y aprovechamiento</h3>
+      <p>Recolección puerta a puerta, <strong>mínimo una vez por semana</strong>.</p>
+      <details class="service-details">
+        <summary>Esquema propuesto, aún en validación</summary>
+        <ul>
+          <li>Lunes: residuos ordinarios.</li>
+          <li>Miércoles: reciclables.</li>
+          <li>Viernes: ordinarios y orgánicos.</li>
+        </ul>
+        <p>Este esquema todavía no está confirmado para su operación.</p>
+      </details>
+    </article>
+    <article class="service-action">
+      <span class="step-number">02</span>
+      <h2>Tarifas del servicio de aseo</h2>
+      <p class="tariff-notice"><strong>Tarifa plena: $13.118 COP</strong></p>
+      <div class="service-table-wrapper" role="region" aria-label="Tarifas y subsidios por tipo de usuario" tabindex="0">
+        <table class="service-tariff-table">
+          <caption>Tarifas y subsidios (Tabla 10). Valores en pesos colombianos.</caption>
+          <thead>
+            <tr><th scope="col">Usuario</th><th scope="col">Tarifa</th><th scope="col">Subsidio</th><th scope="col">Valor del subsidio</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Estrato 1</th><td>$3.935</td><td>70 %</td><td>$9.183</td></tr>
+            <tr><th scope="row">Estrato 2</th><td>$7.870</td><td>40 %</td><td>$5.247</td></tr>
+            <tr><th scope="row">Estrato 3</th><td>$11.150</td><td>15 %</td><td>$1.968</td></tr>
+            <tr><th scope="row">Comercial</th><td>$19.677</td><td>No aplica</td><td>No aplica</td></tr>
+            <tr><th scope="row">Oficial</th><td>$27.202</td><td>No aplica</td><td>No aplica</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Valores según la Tabla 10 del documento suministrado. No se indica su fecha de vigencia.</p>
+    </article>
+    <article class="service-action service-help">
+      <span class="step-number">03</span>
+      <h2>Oficinas y base de operaciones</h2>
+      <h3>Punto de atención y base de operaciones</h3>
+      <address class="service-office">Carrera 5 con Calle 9, esquina, Palacio Municipal (Alcaldía), segundo piso, El Cairo, Valle del Cauca.</address>
+      <p>Acércate a nuestra oficina para solicitar información sobre el servicio público de aseo.</p>
+      <h3>Futura estación de clasificación de aprovechamiento (ECA)</h3>
+      <p>Bodega de 126 m² al lado de la estación de Policía. <strong>En adecuaciones; todavía no está en funcionamiento.</strong></p>
+    </article>
+  </section>
+  <section class="office-location" aria-labelledby="office-location-title">
+    <div class="office-location-heading">
+      <p class="eyebrow">Estamos cerca de ti</p>
+      <h2 id="office-location-title">Ubicación de nuestras sedes</h2>
+      <address class="service-office">Carrera 5 con Calle 9, esquina, Palacio Municipal (Alcaldía), segundo piso, El Cairo, Valle del Cauca.</address>
+      <p>El mapa muestra la sede 1. Puedes consultar la sede 2 mediante su enlace de Google Maps.</p>
+    </div>
+    <iframe id="office-map" class="office-map" title="Mapa de Google Maps de la sede 1 de Serranía en El Cairo" src="https://www.google.com/maps?q=4.7625753%2C-76.220856&amp;z=18&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    <div class="office-location-footer">
+      <p>Sede 1: 4.7625753, -76.220856. Google Maps; requiere conexión a internet.</p>
+      <a class="button button-primary" href="https://www.google.com/maps/search/?api=1&amp;query=4.7625753%2C-76.220856" target="_blank" rel="noopener noreferrer">Abrir sede 1 en Google Maps <span aria-hidden="true">↗</span></a>
+      <p>Sede 2: 4.762922955561891, -76.22051294710205.</p>
+      <a class="button button-primary" href="https://www.google.com/maps/search/?api=1&amp;query=4.762922955561891%2C-76.22051294710205" target="_blank" rel="noopener noreferrer">Abrir sede 2 en Google Maps <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+  </div>
+</main>
+<%- include('../partials/public-footer') %>

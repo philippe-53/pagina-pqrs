@@ -1,0 +1,98 @@
+<%- include('../../partials/head', { title: title, bodyClass: 'app-page' }) %>
+
+<div class="app-shell">
+  <%- include('../../partials/nav') %>
+
+  <main class="app-main">
+    <header class="page-hero">
+      <div>
+        <p class="eyebrow">Mis PQRS</p>
+        <h2>Consultar y actualizar solo solicitudes abiertas</h2>
+      </div>
+      <a class="button button-primary" href="/resident/pqrs/nueva">Nueva PQRS</a>
+    </header>
+
+    <%- include('../../partials/alerts') %>
+
+    <section class="panel">
+      <form class="filters-grid" method="GET" action="/resident/pqrs">
+        <label class="field">
+          <span>Buscar</span>
+          <input type="text" name="q" value="<%= filters.q || '' %>" placeholder="Asunto o descripción">
+        </label>
+        <label class="field">
+          <span>Estado</span>
+          <select name="estado">
+            <option value="">Todos</option>
+            <% states.forEach(function(state) { %>
+              <option value="<%= state.nombre %>" <%= (filters.estado || '').toLowerCase() === state.nombre.toLowerCase() ? 'selected' : '' %>><%= state.nombre %></option>
+            <% }) %>
+          </select>
+        </label>
+        <label class="field">
+          <span>Ordenar por</span>
+          <select name="sortBy">
+            <option value="fecha" <%= filters.sortBy === 'fecha' ? 'selected' : '' %>>Fecha</option>
+            <option value="asunto" <%= filters.sortBy === 'asunto' ? 'selected' : '' %>>Asunto</option>
+            <option value="estado" <%= filters.sortBy === 'estado' ? 'selected' : '' %>>Estado</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Dirección</span>
+          <select name="order">
+            <option value="desc" <%= filters.order !== 'asc' ? 'selected' : '' %>>Descendente</option>
+            <option value="asc" <%= filters.order === 'asc' ? 'selected' : '' %>>Ascendente</option>
+          </select>
+        </label>
+        <div class="filters-actions">
+          <button class="button button-primary" type="submit">Aplicar</button>
+          <a class="button button-ghost" href="/resident/pqrs">Limpiar</a>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h3>Resultados</h3>
+        <span class="muted"><%= pqrs.length %> registros</span>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Asunto</th>
+              <th>Tipo</th>
+              <th>Estado</th>
+              <th>Fecha</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% pqrs.forEach(function(item) { %>
+              <tr>
+                <td><%= item.id_pqrs %></td>
+                <td><%= item.asunto %></td>
+                <td><%= item.tipo %></td>
+                <td><span class="badge"><%= item.estado_pqrs || item.estado_nombre %></span></td>
+                <td><%= item.fecha_creacion ? new Date(item.fecha_creacion).toLocaleDateString('es-CO') : '' %></td>
+                <td class="actions-cell">
+                  <% const currentState = String(item.estado_pqrs || item.estado_nombre).toLowerCase(); %>
+                  <% if (currentState === 'en proceso' || currentState === 'solucionado') { %>
+                    <a class="button button-small" href="/resident/pqrs/<%= item.id_pqrs %>">Ver</a>
+                  <% } %>
+                  <% if (currentState === 'abierto') { %>
+                    <a class="button button-small" href="/resident/pqrs/<%= item.id_pqrs %>/editar">Editar</a>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<%- include('../../partials/footer') %>

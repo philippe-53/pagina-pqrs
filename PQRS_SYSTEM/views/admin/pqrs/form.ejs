@@ -1,0 +1,67 @@
+<%- include('../../partials/head', { title: title, bodyClass: 'app-page' }) %>
+
+<div class="app-shell">
+  <%- include('../../partials/nav') %>
+
+  <main class="app-main">
+    <header class="page-hero">
+      <div>
+        <p class="eyebrow">PQRS</p>
+        <h2><%= mode === 'create' ? 'Crear registro' : 'Editar registro' %></h2>
+      </div>
+      <a class="button button-ghost" href="/admin/pqrs">Volver</a>
+    </header>
+
+    <%- include('../../partials/alerts') %>
+
+    <section class="panel form-panel">
+      <form class="form-grid" method="POST" action="<%= mode === 'create' ? '/admin/pqrs/nueva' : `/admin/pqrs/${pqrs.id_pqrs}/editar` %>">
+        <label class="field">
+          <span>Dirección del servicio</span>
+          <input name="direccion" maxlength="255" value="<%= (pqrs && pqrs.direccion) || '' %>">
+          <% if (pqrs && pqrs.unidad) { %><small>Referencia anterior: <%= pqrs.unidad %></small><% } %>
+        </label>
+
+        <label class="field">
+          <span>Tipo</span>
+          <select name="tipo" required>
+            <% pqrsTypes.forEach(function(option) { %>
+              <option value="<%= option %>" <%= (pqrs && pqrs.tipo === option) ? 'selected' : '' %>><%= option %></option>
+            <% }) %>
+          </select>
+        </label>
+
+        <label class="field field-wide">
+          <span>Asunto</span>
+          <input type="text" name="asunto" value="<%= (pqrs && pqrs.asunto) || '' %>" maxlength="180" required>
+        </label>
+
+        <label class="field field-wide">
+          <span>Descripción</span>
+          <textarea name="descripcion" rows="6" maxlength="5000" required><%= (pqrs && pqrs.descripcion) || '' %></textarea>
+        </label>
+
+        <label class="field">
+          <span>Fecha de creación</span>
+          <input type="date" value="<%= (pqrs && pqrs.fecha_creacion && new Date(pqrs.fecha_creacion).toISOString().slice(0, 10)) || '' %>" readonly>
+        </label>
+
+        <label class="field">
+          <span>Estado</span>
+          <select name="estado_pqrs">
+            <% states.forEach(function(state) { %>
+              <option value="<%= state.nombre %>" <%= (initialState || 'Abierto').toLowerCase() === state.nombre.toLowerCase() ? 'selected' : '' %>><%= state.nombre %></option>
+            <% }) %>
+          </select>
+        </label>
+
+        <div class="form-actions">
+          <button class="button button-primary" type="submit"><%= mode === 'create' ? 'Guardar PQRS' : 'Actualizar PQRS' %></button>
+          <a class="button button-ghost" href="/admin/pqrs">Cancelar</a>
+        </div>
+      </form>
+    </section>
+  </main>
+</div>
+
+<%- include('../../partials/footer') %>

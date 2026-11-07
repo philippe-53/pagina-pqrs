@@ -1,0 +1,58 @@
+<%- include('../../partials/head', { title: title, bodyClass: 'app-page' }) %>
+
+<div class="app-shell">
+  <%- include('../../partials/nav') %>
+
+  <main class="app-main">
+    <header class="page-hero">
+      <div>
+        <p class="eyebrow">Detalle de PQRS · Solo lectura</p>
+        <h2><%= pqrs.asunto %></h2>
+        <p class="ticket-number"><%= pqrs.ticket %></p>
+      </div>
+      <a class="button" href="/consulta-pqrs">Volver a las PQRS</a>
+    </header>
+
+    <section class="panel">
+      <div class="panel-head"><h3>Información de la solicitud</h3></div>
+      <div class="panel-body">
+        <p><strong>Tipo:</strong> <%= pqrs.tipo %></p>
+        <p><strong>Estado:</strong> <span class="badge"><%= pqrs.estado %></span></p>
+        <p><strong>Fecha de creación:</strong> <%= pqrs.fecha_creacion ? new Date(pqrs.fecha_creacion).toLocaleDateString('es-CO') : '' %></p>
+        <p><strong>Descripción:</strong></p>
+        <div class="box"><pre><%= pqrs.descripcion %></pre></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h3>Trayectoria</h3>
+      <% if (history.length) { %>
+        <ol class="tracking-timeline">
+          <% history.forEach(function(item) { %>
+            <li><span class="badge"><%= item.estado %></span> <time><%= item.fecha ? new Date(item.fecha).toLocaleDateString('es-CO') : '' %></time></li>
+          <% }) %>
+        </ol>
+      <% } else { %>
+        <p class="muted">No hay trayectoria registrada.</p>
+      <% } %>
+    </section>
+
+    <section class="panel">
+      <h3>Respuestas</h3>
+      <% if (responses.length) { %>
+        <ul class="timeline">
+          <% responses.forEach(function(item) { %>
+            <li>
+              <div class="meta"><%= item.fecha ? new Date(item.fecha).toLocaleDateString('es-CO') : '' %></div>
+              <div class="content"><%= item.respuesta %></div>
+            </li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <p class="muted">No hay respuestas registradas.</p>
+      <% } %>
+    </section>
+  </main>
+</div>
+
+<%- include('../../partials/footer') %>

@@ -1,0 +1,49 @@
+<%- include('../partials/head', { title, bodyClass: 'public-page home-page attention-page' }) %>
+<%- include('../partials/public-header') %>
+<main>
+  <section class="home-hero" aria-labelledby="attention-title">
+    <div class="institutional-intro">
+      <p class="eyebrow">Serranía SAS ESP · PQRS</p>
+      <h1 id="attention-title">Atención y servicios<br><span>al ciudadano</span></h1>
+      <h2>Escuchamos tu voz.</h2>
+      <p>Registra tus peticiones, quejas, reclamos o sugerencias sobre nuestros servicios y consulta cada paso de tu solicitud.</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="/pqrs/nueva">Registrar una PQRS</a>
+        <a class="button button-ghost" href="/consultar">Consultar mi ticket</a>
+      </div>
+      <p class="hero-note">No necesitas crear una cuenta. Conserva tu ticket para consultar.</p>
+    </div>
+  </section>
+  <div class="public-main home-content">
+    <section class="public-actions" aria-label="Trámites de atención">
+      <a class="service-action" href="/pqrs/nueva">
+        <span class="step-number">01</span>
+        <h2>Registra tu solicitud</h2>
+        <p>Cuéntanos qué ocurrió e indica el servicio y la dirección relacionados.</p>
+        <strong>Nueva PQRS <span aria-hidden="true">→</span></strong>
+      </a>
+      <a class="service-action" href="/consultar">
+        <span class="step-number">02</span>
+        <h2>Consulta el seguimiento</h2>
+        <p>Ingresa tu ticket para conocer el estado, la trayectoria y las respuestas oficiales.</p>
+        <strong>Consultar ticket <span aria-hidden="true">→</span></strong>
+      </a>
+      <article class="service-action service-help">
+        <span class="step-number">03</span>
+        <h2>Recibe una respuesta</h2>
+        <p>Nuestro administrador revisará tu caso y registrará los avances hasta su solución.</p>
+        <strong>Abierto · En proceso · Solucionado</strong>
+      </article>
+    </section>
+    <section class="public-info">
+      <div><p class="eyebrow">Un canal para escucharte</p><h2>¿Qué puedes registrar?</h2></div>
+      <dl class="pqrs-types">
+        <div><dt>Petición</dt><dd>Solicita información o una actuación sobre el servicio.</dd></div>
+        <div><dt>Queja</dt><dd>Comunica una inconformidad con la atención recibida.</dd></div>
+        <div><dt>Reclamo</dt><dd>Reporta una falla o incumplimiento del servicio.</dd></div>
+        <div><dt>Sugerencia</dt><dd>Comparte una idea para mejorar nuestro trabajo.</dd></div>
+      </dl>
+    </section>
+  </div>
+</main>
+<%- include('../partials/public-footer') %>
